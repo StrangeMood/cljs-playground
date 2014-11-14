@@ -1,4 +1,4 @@
-(ns joppa
+(ns helloworld
   (:require [reagent.core :as reagent :refer [atom]]))
 
 (defn greetings-input [value]
@@ -12,7 +12,8 @@
       [:div [:h1 @greeting]
        [greetings-input greeting]])))
 
-(reagent/render-component
-  [main-component]
-  (.getElementById js/document "hello-world-container"))
+(defn ^:export run []
+  (reagent/render-component
+    [main-component]
+    (.getElementById js/document "hello-world-container")))
 
