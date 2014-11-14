@@ -1,16 +1,16 @@
 (ns helloajax
   (:require [reagent.core :as reagent :refer [atom]]
-            [jayq.core :refer [ajax]]))
+            [jayq.core])
+  (:require-macros [jayq.macros :refer [let-ajax]]))
 
 (def greeter (atom "you need to make a greeter"))
-
 
 (defn get-greeter [name]
   (let-ajax [response {:url "/hello_ajax/greet"
                        :method :post
                        :dataType :json
                        :data {:name name}}]
-    (.log js/console response)))
+    (reset! greeter (.-greet response))))
 
 (defn name-form []
   (let [name (atom "")]

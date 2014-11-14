@@ -2,7 +2,7 @@
   :description "A simple example of ClojureScript"
 
   :dependencies [[org.clojure/clojure "1.6.0"]
-                 [org.clojure/clojurescript "0.0-2356"]
+                 [org.clojure/clojurescript "0.0-2371"]
                  [reagent "0.4.3"]
                  [jayq "2.5.2"]]
 
