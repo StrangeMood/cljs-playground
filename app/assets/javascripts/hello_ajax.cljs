@@ -1,20 +1,29 @@
 (ns helloajax
   (:require [reagent.core :as reagent :refer [atom]]
-            [ajax.core :refer [POST]]))
+            [jayq.core :refer [ajax]]))
 
 (def greeter (atom "you need to make a greeter"))
 
-(defn get-greeter [el]
-  (POST "/hello_ajax/greet" {:params (js/FormData. el)}))
+
+(defn get-greeter [name]
+  (let-ajax [response {:url "/hello_ajax/greet"
+                       :method :post
+                       :dataType :json
+                       :data {:name name}}]
+    (.log js/console response)))
 
 (defn name-form []
-  [:form [:p "Please enter your name and hit the button: "
-          [:input {:type "text" :value "" :name "name"}]
-          [:button {:on-click #(get-greeter (.getElementsBytagName js/document "form"))}]]])
+  (let [name (atom "")]
+    (fn []
+      [:p "Please enter your name and hit the button: "
+       [:input {:type "text"
+                :value @name
+                :name "name"
+                :on-change #(reset! name (-> % .-target .-value))}]
+       [:button {:on-click #(get-greeter @name)} "Make Greeter"]])))
 
 (defn main-component []
-  [:div
-   [name-form]
+  [:div [name-form]
    [:h2 @greeter]])
 
 
